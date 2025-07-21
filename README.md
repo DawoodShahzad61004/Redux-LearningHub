@@ -93,12 +93,6 @@ This is an interactive, visually-rich web project to help learners understand th
 
 ---
 
-## 📸 Screenshots
-
-<!-- Add screenshots of different sections like Diagram, Cart, Code Preview, Quiz, etc. -->
-
----
-
 ## 🔗 Live Demo
 
 **[Redux Learning Hub – Hosted on GitHub Pages](https://dawoodshahzad61004.github.io/Redux-LearningHub/)**
