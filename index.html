@@ -1,340 +1,338 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Redux Learning Hub - Interactive React Tutorial</title>
+    <title>Interactive Redux Guide</title>
     <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/themes/prism-tomorrow.min.css">
+    <style></style>
 </head>
+
 <body>
-    <nav class="navbar">
-        <div class="nav-container">
-            <h1 class="nav-title">Redux Learning Hub</h1>
-            <div class="nav-links">
-                <a href="#introduction" class="nav-link">Introduction</a>
-                <a href="#store" class="nav-link">Store</a>
-                <a href="#actions" class="nav-link">Actions</a>
-                <a href="#reducers" class="nav-link">Reducers</a>
-                <a href="#dispatch" class="nav-link">Dispatch</a>
-                <a href="#react-redux" class="nav-link">React-Redux</a>
-                <a href="#middleware" class="nav-link">Middleware</a>
+    <div class="container">
+        <div class="header">
+            <h1>🔄 Redux Interactive Guide</h1>
+            <p>Master Redux with interactive diagrams and hands-on practice</p>
+        </div>
+
+        <div class="nav-tabs">
+            <button class="nav-tab active" data-section="properties">Properties</button>
+            <button class="nav-tab" data-section="usage">Usage</button>
+            <button class="nav-tab" data-section="application">Application: Redux Shopping Cart</button>
+            <button class="nav-tab" data-section="practice">Creating Redux Architecture</button>
+        </div>
+
+        <!-- Properties Section -->
+        <div class="section active" id="properties">
+            <h2>Redux Properties & Concepts</h2>
+
+            <div class="concept-card">
+                <h3>🏪 Single Source of Truth</h3>
+                <p>Redux maintains the entire application state in a single store object tree. This makes state
+                    predictable and easier to debug.</p>
             </div>
-            <div class="progress-bar">
-                <div class="progress-fill" id="progressFill"></div>
+
+            <div class="concept-card">
+                <h3>📖 State is Read-Only</h3>
+                <p>The only way to change state is by emitting actions. This ensures that views or network callbacks
+                    never write directly to state.</p>
+            </div>
+
+            <div class="concept-card">
+                <h3>🔧 Changes with Pure Functions</h3>
+                <p>Reducers are pure functions that take the previous state and an action, and return the next state.
+                </p>
+            </div>
+
+            <div class="redux-diagram">
+                <h3 style="color: white; text-align: center; margin-bottom: 20px;">Redux Data Flow</h3>
+                <div class="diagram-container">
+                    <div class="diagram-item" id="view-item">
+                        <h4>📱 View</h4>
+                        <p>UI Component</p>
+                    </div>
+                    <div class="arrow">→</div>
+                    <div class="diagram-item" id="action-item">
+                        <h4>⚡ Action</h4>
+                        <p>Event Trigger</p>
+                    </div>
+                    <div class="arrow">→</div>
+                    <div class="diagram-item" id="reducer-item">
+                        <h4>⚙️ Reducer</h4>
+                        <p>State Logic</p>
+                    </div>
+                    <div class="arrow">→</div>
+                    <div class="diagram-item" id="store-item">
+                        <h4>🏪 Store</h4>
+                        <p>State Container</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="redux-info-text"
+                style="display: none; margin-top: 20px; background: #fff; border-left: 5px solid #ff6b6b; padding: 20px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                <strong>This animation demonstrates the unidirectional data flow that is fundamental to Redux:</strong>
+                <ul style="margin-top: 10px; padding-left: 20px;">
+                    <li><strong>View</strong> - User interacts with the UI</li>
+                    <li><strong>Action</strong> - An action is dispatched describing what happened</li>
+                    <li><strong>Reducer</strong> - Pure function processes the action and returns new state</li>
+                    <li><strong>Store</strong> - State is updated in the store</li>
+                    <li><strong>Back to View</strong> - UI re-renders with new state (cycle repeats)</li>
+                </ul>
+            </div>
+
+            <div class="interactive-controls">
+                <button class="btn btn-primary" onclick="animateReduxFlow()">🎬 Animate Redux Flow</button>
+                <button class="btn btn-success" onclick="resetAnimation()">🔄 Reset</button>
+            </div>
+
+            <div class="code-example">
+                <strong>Redux Core Concepts:</strong><br><br>
+                // Action<br>
+                const incrementAction = { type: 'INCREMENT', payload: 1 };<br><br>
+
+                // Reducer<br>
+                const counterReducer = (state = { count: 0 }, action) => {<br>
+                &nbsp;&nbsp;switch (action.type) {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;case 'INCREMENT':<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return { ...state, count: state.count + action.payload };<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;default:<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return state;<br>
+                &nbsp;&nbsp;}<br>
+                };<br><br>
+
+                // Store<br>
+                const store = createStore(counterReducer);
             </div>
         </div>
-    </nav>
 
-    <main class="main-content">
-        <!-- Introduction Section -->
-        <section id="introduction" class="section">
-            <div class="container">
-                <h2 class="section-title">What is Redux?</h2>
-                <p class="section-text">
-                    Redux is a predictable state container for JavaScript applications. It helps you manage the state of your application in a single, centralized location.
-                </p>
-                <div class="visual-container">
-                    <div class="redux-flow">
-                        <div class="flow-item" id="action-flow">
-                            <div class="flow-icon">⚡</div>
-                            <div class="flow-label">Action</div>
-                        </div>
-                        <div class="flow-arrow">→</div>
-                        <div class="flow-item" id="reducer-flow">
-                            <div class="flow-icon">🔧</div>
-                            <div class="flow-label">Reducer</div>
-                        </div>
-                        <div class="flow-arrow">→</div>
-                        <div class="flow-item" id="store-flow">
-                            <div class="flow-icon">🏪</div>
-                            <div class="flow-label">Store</div>
-                        </div>
-                        <div class="flow-arrow">→</div>
-                        <div class="flow-item" id="view-flow">
-                            <div class="flow-icon">👁️</div>
-                            <div class="flow-label">View</div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="practice-section">
-                  <h3>Build the Redux Flow 🧩</h3>
-                  <p class="section-text">Drag the tiles into the correct order:</p>
-                
-                  <div id="flow-game" class="flow-game">
-                    <div class="drop-zone" id="drop-zone">
-                      <!-- 4 slots -->
-                      <div class="slot" data-index="0"><span>1</span></div>
-                      <div class="slot" data-index="1"><span>2</span></div>
-                      <div class="slot" data-index="2"><span>3</span></div>
-                      <div class="slot" data-index="3"><span>4</span></div>
-                    </div>
-                
-                    <div class="tile-pool" id="tile-pool">
-                      <div class="tile" draggable="true" data-word="Action">⚡ Action</div>
-                      <div class="tile" draggable="true" data-word="Reducer">🔧 Reducer</div>
-                      <div class="tile" draggable="true" data-word="Store">🏪 Store</div>
-                      <div class="tile" draggable="true" data-word="View">👁️ View</div>
-                    </div>
-                  </div>
+        <!-- Usage Section -->
+        <div class="section" id="usage">
+            <h2>Redux Usage Patterns</h2>
 
-  <button class="btn" id="check-order-btn" disabled>Check Order</button>
-  <div class="quiz-feedback" id="flow-feedback"></div>
-
-  <!-- tiny confetti -->
-  <canvas id="confetti-canvas" width="600" height="400"
-          style="display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;z-index:999"></canvas>
-</div>
+            <div class="concept-card">
+                <h3>🎯 When to Use Redux</h3>
+                <ul style="margin-top: 15px; padding-left: 20px;">
+                    <li>Large applications with complex state</li>
+                    <li>State shared across many components</li>
+                    <li>Need for predictable state updates</li>
+                    <li>Time-travel debugging requirements</li>
+                </ul>
             </div>
-        </section>
 
-        <!-- Store Section -->
-        <section id="store" class="section">
-            <div class="container">
-                <h2 class="section-title">The Store</h2>
-                <p class="section-text">
-                    The store is the single source of truth for your application state. It holds the entire state tree of your application.
-                </p>
-                
-                <div class="code-example">
-                    <pre><code class="language-javascript">import { createStore } from 'redux';
+            <div class="interactive-controls">
+                <button class="btn btn-primary" onclick="showActionCreators()">📝 Action Creators</button>
+                <button class="btn btn-success" onclick="showMiddleware()">🔌 Middleware</button>
+                <button class="btn btn-danger" onclick="showAsyncActions()">⏱️ Async Actions</button>
+            </div>
 
-const store = createStore(reducer);
+            <div class="code-example" id="usage-code">
+                <strong>Basic Redux Setup:</strong><br><br>
+                import { createStore } from 'redux';<br><br>
 
-// Get current state
-console.log(store.getState());</code></pre>
-                </div>
+                // Initial State<br>
+                const initialState = {<br>
+                &nbsp;&nbsp;counter: 0,<br>
+                &nbsp;&nbsp;todos: [],<br>
+                &nbsp;&nbsp;user: null<br>
+                };<br><br>
 
-                <div class="practice-section">
-                    <h3>Interactive Store</h3>
-                    <div class="store-demo">
-                        <div class="store-controls">
-                            <button class="btn" id="create-store-btn">Create Store</button>
-                            <button class="btn" id="get-state-btn" disabled>Get State</button>
-                        </div>
-                        <div class="store-display">
-                            <div class="store-state">
-                                <strong>Current State:</strong>
-                                <pre id="store-state-display">Store not created</pre>
-                            </div>
-                        </div>
-                    </div>
+                // Root Reducer<br>
+                const rootReducer = (state = initialState, action) => {<br>
+                &nbsp;&nbsp;// Handle different action types<br>
+                &nbsp;&nbsp;return state;<br>
+                };<br><br>
+
+                // Create Store<br>
+                const store = createStore(rootReducer);
+            </div>
+
+            <div class="practice-area">
+                <h3>💡 Usage Best Practices</h3>
+                <ul>
+                    <li><strong>Keep state normalized:</strong> Avoid nested objects, use IDs for references</li>
+                    <li><strong>Use action creators:</strong> Encapsulate action creation logic</li>
+                    <li><strong>Implement middleware:</strong> For logging, async operations, etc.</li>
+                    <li><strong>Use selectors:</strong> Derive computed data from state</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Application Section -->
+        <div class="section" id="application">
+            <h2>Redux Shopping Cart</h2>
+
+            <div class="todo-container">
+                <h3>🛒 Add New Product</h3>
+                <input type="text" class="todo-input" id="product-name" placeholder="Product name...">
+                <input type="number" class="todo-input" id="product-price" placeholder="Price...">
+                <input type="number" class="todo-input" id="product-quantity" placeholder="Quantity...">
+                <div class="interactive-controls">
+                    <button class="btn btn-primary"
+                        onclick="dispatchDebuggerAction({ type: 'ADD_ITEM' }, () => addProductToCart())">➕ Add to
+                        Cart</button>
+                    <button class="btn btn-danger"
+                        onclick="dispatchDebuggerAction({ type: 'CLEAR_CART' }, () => clearCart())">🧹 Clear
+                        Cart</button>
                 </div>
             </div>
-        </section>
 
-        <!-- Actions Section -->
-        <section id="actions" class="section">
-            <div class="container">
-                <h2 class="section-title">Actions</h2>
-                <p class="section-text">
-                    Actions are plain JavaScript objects that describe what happened. They must have a 'type' property.
-                </p>
-                
-                <div class="code-example">
-                    <pre><code class="language-javascript">// Action Types
-const ADD_TODO = 'ADD_TODO';
-const TOGGLE_TODO = 'TOGGLE_TODO';
-
-// Action Creators
-const addTodo = (text) => ({
-  type: ADD_TODO,
-  payload: { text, id: Date.now() }
-});</code></pre>
-                </div>
-
-                <div class="practice-section">
-                    <h3>Build an Action</h3>
-                    <div class="action-builder">
-                        <div class="form-group">
-                            <label>Action Type:</label>
-                            <input type="text" id="action-type" placeholder="e.g., ADD_ITEM">
-                        </div>
-                        <div class="form-group">
-                            <label>Payload (JSON):</label>
-                            <textarea id="action-payload" placeholder='{"name": "New Item"}'></textarea>
-                        </div>
-                        <button class="btn" onclick="buildAction()">Create Action</button>
-                        <div class="action-result">
-                            <h4>Your Action:</h4>
-                            <pre id="action-output"></pre>
-                        </div>
-                    </div>
-                </div>
+            <div class="todo-container">
+                <h3>🛍️ Cart Items</h3>
+                <ul class="todo-list" id="cart-items"></ul>
+                <div class="counter-display" id="total-price">Total: $0</div>
             </div>
-        </section>
 
-        <!-- Reducers Section -->
-        <section id="reducers" class="section">
-            <div class="container">
-                <h2 class="section-title">Reducers</h2>
-                <p class="section-text">
-                    Reducers specify how the application's state changes in response to actions. They are pure functions that take the previous state and an action, and return the next state.
+            <div class="todo-container">
+                <h3>🧪 State Debugger Simulator</h3>
+                <p>This tool tracks and displays Redux-like actions and state changes every time you modify the cart.
                 </p>
-                
-                <div class="code-example">
-                    <pre><code class="language-javascript">function counterReducer(state = 0, action) {
-  switch (action.type) {
-    case 'INCREMENT':
-      return state + 1;
-    case 'DECREMENT':
-      return state - 1;
-    default:
-      return state;
+                <div class="interactive-controls">
+                    <button class="btn btn-primary" id="undo-btn" onclick="undo()">↩️ Undo</button>
+                    <button class="btn btn-primary" id="redo-btn" onclick="redo()">↪️ Redo</button>
+                </div>
+                <ul id="debugger-log" class="todo-list" style="margin-top: 20px;"></ul>
+            </div>
+
+            <div class="code-example">
+                <strong>Cart Reducer Example:</strong><br><br>
+                const cartReducer = (state = { items: [], total: 0 }, action) => {<br>
+                &nbsp;&nbsp;switch (action.type) {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;case 'ADD_ITEM':<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;const addedItems = [...state.items, action.payload];<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;items: addedItems,<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;total: addedItems.reduce((acc, item) => acc + item.price
+                * item.quantity, 0)<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;};<br><br>
+
+                &nbsp;&nbsp;&nbsp;&nbsp;case 'CLEAR_CART':<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return { items: [], total: 0 };<br><br>
+
+                &nbsp;&nbsp;&nbsp;&nbsp;default:<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return state;<br>
+                &nbsp;&nbsp;}<br>
+                };
+            </div>
+        </div>
+
+        <!-- Practice Section -->
+        <div class="practice-area">
+            <h3>🛠️ Creating & Integrating Redux</h3>
+
+            <div class="redux-step-block">
+                <button class="btn btn-primary" onclick="toggleInstructions('store')">📁 1. Create Store
+                    (instructions)</button>
+                <pre id="store-instructions" class="code-example" style="display: none;">
+// store.js (Redux Toolkit)
+import { configureStore } from '@reduxjs/toolkit';
+import counterReducer from './counterSlice';
+
+export const store = configureStore({
+  reducer: {
+    counter: counterReducer
   }
-}</code></pre>
-                </div>
-
-                <div class="practice-section">
-                    <h3>Reducer Playground</h3>
-                    <div class="reducer-playground">
-                        <div class="playground-input">
-                            <h4>Initial State:</h4>
-                            <input type="number" id="initial-state" value="0" min="0">
-                        </div>
-                        <div class="playground-actions">
-                            <button class="btn" onclick="dispatchAction('INCREMENT')">INCREMENT</button>
-                            <button class="btn" onclick="dispatchAction('DECREMENT')">DECREMENT</button>
-                            <button class="btn" onclick="dispatchAction('RESET')">RESET</button>
-                        </div>
-                        <div class="playground-result">
-                            <h4>Current State:</h4>
-                            <div class="state-display" id="reducer-state">0</div>
-                        </div>
-                        <div class="history">
-                            <h4>Action History:</h4>
-                            <ul id="action-history"></ul>
-                        </div>
-                    </div>
-                </div>
+});
+    </pre>
+                <textarea id="store-code" class="todo-input" rows="8"
+                    placeholder="Write your store.js code here..."></textarea>
             </div>
-        </section>
 
-        <!-- Dispatch Section -->
-        <section id="dispatch" class="section">
-            <div class="container">
-                <h2 class="section-title">Dispatch</h2>
-                <p class="section-text">
-                    Dispatch is the only way to trigger a state change. You dispatch actions to the store to update the state.
-                </p>
-                
-                <div class="code-example">
-                    <pre><code class="language-javascript">// Dispatch an action
-store.dispatch({ type: 'INCREMENT' });
+            <div class="redux-step-block">
+                <button class="btn btn-primary" onclick="toggleInstructions('slice')">📦 2. Create Slice
+                    (instructions)</button>
+                <pre id="slice-instructions" class="code-example" style="display: none;">
+// counterSlice.js
+import { createSlice } from '@reduxjs/toolkit';
 
-// Or with action creator
-store.dispatch(addTodo('Learn Redux'));</code></pre>
-                </div>
+const initialState = { count: 0 };
 
-                <div class="practice-section">
-                    <h3>Todo List Example</h3>
-                    <div class="todo-demo">
-                        <div class="todo-input">
-                            <input type="text" id="todo-text" placeholder="Enter a todo...">
-                            <button class="btn" onclick="addTodo()">Add Todo</button>
-                        </div>
-                        <div class="todo-list">
-                            <h4>Your Todos:</h4>
-                            <ul id="todos-container"></ul>
-                        </div>
-                    </div>
-                </div>
+const counterSlice = createSlice({
+  name: 'counter',
+  initialState,
+  reducers: {
+    increment: (state) => { state.count += 1; },
+    decrement: (state) => { state.count -= 1; },
+    incrementByAmount: (state, action) => { state.count += action.payload; }
+  }
+});
+
+export const { increment, decrement, incrementByAmount } = counterSlice.actions;
+export default counterSlice.reducer;
+    </pre>
+                <textarea id="slice-code" class="todo-input" rows="10"
+                    placeholder="Write your counterSlice.js code here..."></textarea>
             </div>
-        </section>
 
-        <!-- React-Redux Section -->
-        <section id="react-redux" class="section">
-            <div class="container">
-                <h2 class="section-title">React-Redux</h2>
-                <p class="section-text">
-                    React-Redux is the official React binding for Redux. It lets your React components read data from the Redux store and dispatch actions to update the store.
-                </p>
-                
-                <div class="code-example">
-                    <pre><code class="language-javascript">import { useSelector, useDispatch } from 'react-redux';
+            <div class="redux-step-block">
+                <button class="btn btn-primary" onclick="toggleInstructions('ui')">🖥️ 3. Integrate UI
+                    (instructions)</button>
+                <pre id="ui-instructions" class="code-example" style="display: none;">
+// index.js
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
+import App from './App';
+import { store } from './store';
 
-function Counter() {
-  const count = useSelector(state => state.count);
+ReactDOM.render(
+  <Provider store={store}>
+    <App />
+  </Provider>,
+  document.getElementById('root')
+);
+    </pre>
+                <textarea id="ui-code" class="todo-input" rows="6"
+                    placeholder="Write your UI integration code here..."></textarea>
+            </div>
+
+            <div class="redux-step-block">
+                <button class="btn btn-primary" onclick="toggleInstructions('dispatch')">🎯 4. Use Redux State &
+                    Dispatch (instructions)</button>
+                <pre id="dispatch-instructions" class="code-example" style="display: none;">
+// App.js
+import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { increment, decrement } from './counterSlice';
+
+const App = () => {
+  const count = useSelector((state) => state.counter.count);
   const dispatch = useDispatch();
-  
+
   return (
     &lt;div&gt;
-      &lt;p&gt;Count: {count}&lt;/p&gt;
-      &lt;button onClick={() => dispatch(increment())}&gt;+&lt;/button&gt;
+      &lt;h1&gt;Count: {count}&lt;/h1&gt;
+      &lt;button onClick={() =&gt; dispatch(increment())}&gt;+&lt;/button&gt;
+      &lt;button onClick={() =&gt; dispatch(decrement())}&gt;-&lt;/button&gt;
     &lt;/div&gt;
   );
-}</code></pre>
-                </div>
-
-                <div class="practice-section">
-                    <h3>React Component Simulator</h3>
-                    <div class="react-demo">
-                        <div class="component-preview">
-                            <h4>Counter Component</h4>
-                            <div class="counter-display">
-                                <span id="react-count">0</span>
-                                <div class="counter-controls">
-                                    <button class="btn" onclick="reactIncrement()">+</button>
-                                    <button class="btn" onclick="reactDecrement()">-</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="component-code">
-                            <h4>Code Preview:</h4>
-                            <pre id="component-code-display"></pre>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Middleware Section -->
-        <section id="middleware" class="section">
-            <div class="container">
-                <h2 class="section-title">Middleware</h2>
-                <p class="section-text">
-                    Middleware provides a third-party extension point between dispatching an action and the moment it reaches the reducer.
-                </p>
-                
-                <div class="code-example">
-                    <pre><code class="language-javascript">const logger = store => next => action => {
-  console.log('dispatching', action);
-  let result = next(action);
-  console.log('next state', store.getState());
-  return result;
 };
 
-const store = createStore(reducer, applyMiddleware(logger));</code></pre>
-                </div>
-
-                <div class="practice-section">
-                    <h3>Middleware Logger</h3>
-                    <div class="middleware-demo">
-                        <div class="logger-controls">
-                            <button class="btn" onclick="middlewareAction('FETCH_USER')">FETCH_USER</button>
-                            <button class="btn" onclick="middlewareAction('UPDATE_PROFILE')">UPDATE_PROFILE</button>
-                        </div>
-                        <div class="logger-output">
-                            <h4>Middleware Logs:</h4>
-                            <div id="logger-messages"></div>
-                        </div>
-                    </div>
-                </div>
+export default App;
+    </pre>
+                <textarea id="dispatch-code" class="todo-input" rows="10"
+                    placeholder="Write your App.js code here..."></textarea>
             </div>
-        </section>
-    </main>
 
-    <footer class="footer">
-        <div class="container">
-            <p>&copy; 2024 Redux Learning Hub. Built with ❤️ for developers.</p>
+            <div class="interactive-controls">
+                <button class="btn btn-success" onclick="executeReduxCode()">🚀 Execute</button>
+            </div>
+
+            <div class="concept-card">
+                <h3>🧪 Output Preview</h3>
+                <iframe id="redux-preview" style="width:100%;height:300px;border:2px solid #007bff;"></iframe>
+            </div>
+
+            <div class="concept-card" style="background: #ffeaa7; color: black;">
+                <h3>⚠️ Execution Errors</h3>
+                <pre id="redux-error" style="background:#fff; padding:10px; border-radius:10px;"></pre>
+            </div>
         </div>
-    </footer>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-core.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/plugins/autoloader/prism-autoloader.min.js"></script>
-    <script src="script.js"></script>
-    <script src="https://unpkg.com/redux@4.2.1/dist/redux.min.js"></script>
+    </div>
+
+    <script src="index.js"></script>
 </body>
+
 </html>
